@@ -1,0 +1,46 @@
+// С„СѓРЅРєС†РёСЏ РґР»СЏ РІС‹РїРѕР»РЅРµРЅРёСЏ РѕСЂРґРµСЂР° РЅР° РїРѕРєСѓРїРєСѓ
+async function buy(symbol, quantity, price) {
+  const order = await client.order({
+    symbol: symbol,
+    side: 'BUY',
+    type: 'LIMIT',
+    quantity: quantity,
+    price: price
+  });
+  return order;
+}
+
+// С„СѓРЅРєС†РёСЏ РґР»СЏ РІС‹РїРѕР»РЅРµРЅРёСЏ РѕСЂРґРµСЂР° РЅР° РїСЂРѕРґР°Р¶Сѓ
+async function sell(symbol, quantity, price) {
+  const order = await client.order({
+    symbol: symbol,
+    side: 'SELL',
+    type: 'LIMIT',
+    
+    const Binance = require('node-binance-api');
+const binance = new Binance().options({
+  APIKEY: 'your_api_key',
+  APISECRET: 'your_api_secret',
+});
+
+// Р¤СѓРЅРєС†РёСЏ РґР»СЏ РїРѕР»СѓС‡РµРЅРёСЏ Р±Р°Р»Р°РЅСЃР° Р°РєС‚РёРІРѕРІ РЅР° Р±РёСЂР¶Рµ
+async function getBalance(asset) {
+  const account = await binance.account();
+  return account.balances[asset].available;
+}
+
+// Р¤СѓРЅРєС†РёСЏ РґР»СЏ РїРѕР»СѓС‡РµРЅРёСЏ С‚РµРєСѓС‰РµР№ С†РµРЅС‹ РєСЂРёРїС‚РѕРІР°Р»СЋС‚С‹
+async function getPrice(symbol) {
+  const ticker = await binance.prices(symbol);
+  return ticker[symbol];
+}
+
+// Р¤СѓРЅРєС†РёСЏ РґР»СЏ РїСЂРѕРІРµСЂРєРё РІРѕР·РјРѕР¶РЅРѕСЃС‚Рё Р°СЂР±РёС‚СЂР°Р¶Р°
+async function checkArbitrage(symbol, baseAsset, quoteAsset) {
+  const basePrice = await getPrice(`${baseAsset}${quoteAsset}`);
+  const quotePrice = await getPrice(`${quoteAsset}${baseAsset}`);
+  const balance = await getBalance(baseAsset);
+  const expectedProfit = balance * (quotePrice - basePrice);
+  
+  if (expectedProfit > 0) {
+    console.log(`Possible arbitrage: buy ${baseAsset} on ${quoteAsset} market and sell on ${baseAsset} market for a profit
